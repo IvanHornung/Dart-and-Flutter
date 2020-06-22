@@ -13,7 +13,7 @@ class Person {
     this.firstName = firstName;
   }
   // =
-  Person(this.firstName);
+  //Person(this.firstName);
 
 
   printName() {
