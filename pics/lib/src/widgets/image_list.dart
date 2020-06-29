@@ -27,8 +27,8 @@ class ImageList extends StatelessWidget {
       //all(double pixels) refers to all sides of container (T,B,L,R)
       margin: EdgeInsets.all(20.0),
       //child is widget displayed inside whatever ur trying to make
-      child: Column(
-        children: <Widget>[
+      child: Column( //column widget stacks up widgets
+        children: <Widget>[ //declaring a list of widgets to be safe
           Padding(
             child: Image.network(image.url),
             padding: EdgeInsets.only(
