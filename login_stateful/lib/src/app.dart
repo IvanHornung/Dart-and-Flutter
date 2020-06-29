@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/login_screen.dart';
 
 class App extends StatelessWidget {
   Widget build(context) {
@@ -9,7 +10,7 @@ class App extends StatelessWidget {
       home: Scaffold( //we want the default component to show up
         //to the screen to be Scaffold that had a body
         //of some amount of text
-        body: Text('Show a form here!'),
+        body: LoginScreen(),
       ),
     );
   }
