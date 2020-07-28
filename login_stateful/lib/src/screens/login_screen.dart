@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
   createState() {
-    return new LoginScreenState();
+    return LoginScreenState();
   }
 }
 
 class LoginScreenState extends State<LoginScreen> {
+  final formKey = GlobalKey<FormState>(); //global var
+
   Widget build(context) {
-    return Container (
+    return Container(
       margin: EdgeInsets.all(20.0),
       child: Form(
+        key: formKey, //asigning global var
         child: Column(
           children: <Widget>[
             emailField(),
             passwordField(),
+            Container(margin: EdgeInsets.only(top: 25.0)), //manipulates spacing
             submitButton(),
           ],
         ),
@@ -24,7 +28,8 @@ class LoginScreenState extends State<LoginScreen> {
 
   Widget emailField() {
     return TextFormField(
-      keyboardType: TextInputType.emailAddress, //custom keyboard layout specific for email input
+      keyboardType: TextInputType
+          .emailAddress, //custom keyboard layout specific for email input
       decoration: InputDecoration(
         labelText: 'Email Address',
         hintText: 'you@example.com', //gives ex to user
@@ -44,8 +49,11 @@ class LoginScreenState extends State<LoginScreen> {
 
   Widget submitButton() {
     return RaisedButton(
+      color: Colors.blue,
       child: Text('Submit!'),
-      onPressed: () {}, //required parameter
+      onPressed: () {
+        formKey.currentState.reset();
+      }, //required parameter
     );
   }
 }
