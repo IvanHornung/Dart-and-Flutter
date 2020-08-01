@@ -15,6 +15,7 @@ class LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             emailField(),
             passwordField(),
+            Container(margin: EdgeInsets.only(top: 25.0)),
             submitButton(),
           ],
         ),
@@ -36,6 +37,8 @@ class LoginScreenState extends State<LoginScreen> {
 
   Widget passwordField() {
     return TextFormField(
+      //putting spacing works here, but is not as maintainable code
+      //What happens if we swap the spots of the 2 text fields??
       obscureText: true, //obscures text
       decoration: InputDecoration(
         labelText: 'Password',
