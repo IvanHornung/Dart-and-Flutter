@@ -7,10 +7,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
+  final formKey =
+      GlobalKey<FormState>(); //conformed to expect a FormState instance
+
   Widget build(context) {
     return Container(
       margin: EdgeInsets.all(20.0),
       child: Form(
+        key: formKey, //assigns GlobalKey
         child: Column(
           children: <Widget>[
             emailField(),
@@ -52,7 +56,16 @@ class LoginScreenState extends State<LoginScreen> {
     return RaisedButton(
       color: Colors.blue,
       child: Text('Submit!'),
-      onPressed: () {},
+      onPressed: () {
+        formKey.currentState.reset();
+      },
     );
   }
 }
+
+//Notes:
+//To reference a widget that has been rendered to the screen of the device,
+//you create a GlobalKey.
+
+//The global key gives us the ability to reference a very specific widget
+//and reference properties and call methods that are associated with that widget.
