@@ -30,25 +30,35 @@ class LoginScreenState extends State<LoginScreen> {
   //helper methods to prevent congestion and make code easier to read
   Widget emailField() {
     return TextFormField(
-      keyboardType:
-          TextInputType.emailAddress, //adjusts keyboard for email input
-      decoration: InputDecoration(
-        labelText: 'Email Address',
-        hintText: 'you@example.com',
-      ),
-    );
+        keyboardType:
+            TextInputType.emailAddress, //adjusts keyboard for email input
+        decoration: InputDecoration(
+          labelText: 'Email Address',
+          hintText: 'you@example.com',
+        ),
+        validator: (String value) {
+          // return null if valid
+          // otherwise string (with the error message) if invalid
+          if (!value.contains('@')) {
+            return 'Please enter a valid email';
+          }
+        });
   }
 
   Widget passwordField() {
     return TextFormField(
-      //putting spacing works here, but is not as maintainable code
-      //What happens if we swap the spots of the 2 text fields??
-      obscureText: true, //obscures text
-      decoration: InputDecoration(
-        labelText: 'Password',
-        hintText: 'Password',
-      ),
-    );
+        //putting spacing works here, but is not as maintainable code
+        //What happens if we swap the spots of the 2 text fields??
+        obscureText: true, //obscures text
+        decoration: InputDecoration(
+          labelText: 'Password',
+          hintText: 'Password',
+        ),
+        validator: (String value) {
+          if (value.length < 4) {
+            return 'Password must be at least 4 characters';
+          }
+        });
   }
 
   Widget submitButton() {
@@ -57,7 +67,7 @@ class LoginScreenState extends State<LoginScreen> {
       color: Colors.blue,
       child: Text('Submit!'),
       onPressed: () {
-        formKey.currentState.reset();
+        print(formKey.currentState.validate());
       },
     );
   }
