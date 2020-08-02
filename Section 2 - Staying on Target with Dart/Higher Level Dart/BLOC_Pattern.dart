@@ -23,6 +23,19 @@ void main() {
 
   final order = new Order('banana');
 
+  final baker = new StreamTransformer.fromHandlers(
+    handleData: (cakeType, sink) {
+      if (cakeType == 'chocolate') {
+        sink.add(new Cake());
+      } else {
+        sink.addError('I cant bake that type!');
+      }
+    },
+  );
+
   controller.sink.add(order);
   //order -> sink "order taker" -> stream (Factory where processing is done)
+
+//"order inspector": takes order and pulls out relevent information
+  controller.stream.map((order) => order.type).transform(baker);
 }
