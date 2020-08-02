@@ -23,8 +23,13 @@ void main() {
 
   final order = new Order('banana');
 
+  //3. BAKER: The StreamTranformer. Looks at incoming values, does processing on them,
+  //          then adds them back into the stream.
   final baker = new StreamTransformer.fromHandlers(
     handleData: (cakeType, sink) {
+      //this is a separate sink from #1. If you call sink.add with this one, it adds adds a value
+      // where the /'s are. If you call sink.add with the transformer, it doesnt start the entire
+      //process over again, it just adds a new value that continues on from the .transform step forward.
       if (cakeType == 'chocolate') {
         sink.add(new Cake());
       } else {
@@ -33,9 +38,21 @@ void main() {
     },
   );
 
+  //1. ORDER TAKER: The StreamController's sink.add function. Adds a new value
+  //             to be processed by the stream (factory where processing is done)
   controller.sink.add(order);
-  //order -> sink "order taker" -> stream (Factory where processing is done)
 
 //"order inspector": takes order and pulls out relevent information
-  controller.stream.map((order) => order.type).transform(baker);
+  controller.stream
+      //2. ORDER INSPECTOR: The 'map' function of the stream. Looks at each value that
+      //                 comes in to the stream, does some processing on it, then returns it.
+      .map((order) => //Arrow function has implicit return keyword
+          order.type) //Purpose: just extract the type of cake we wanted.
+      .transform(baker)
+      /////////////////
+      .listen((cake) => print('Heres your $cake'),
+          onError: (err) => print(err));
+  //4. PICKUP OFFICE: The 'listen' function. First argument gets called with values
+  //   that made it through the stream without errors. 'onError' called with any errors
+  //   produced during the stream processing.
 }
