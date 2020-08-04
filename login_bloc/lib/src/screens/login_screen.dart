@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../blocs/bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   Widget build(context) {
@@ -16,12 +17,23 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget emailField() {
-    return TextField(
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        hintText: 'you@example.com',
-        labelText: 'Email Address',
-      ),
+    return StreamBuilder(
+      stream: bloc.email,
+      //every time a new event comes accross ^this stream,the builder function re-runs
+      //whenever the builder func gets called, it gets invoked with whatever value came
+      //across the stream - which gets wrapped up in "snapshot"
+      builder: (context, snapshot) {
+        return TextField(
+          onChanged:
+              bloc.changeEmail, //same as writing (newVal){.changeEmail(newVal)}
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            hintText: 'you@example.com',
+            labelText: 'Email Address',
+            errorText: snapshot.error,
+          ),
+        );
+      },
     );
   }
 

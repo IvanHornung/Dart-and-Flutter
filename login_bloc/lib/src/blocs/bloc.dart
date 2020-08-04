@@ -1,3 +1,6 @@
+//A Bloc is a middleman between a source of data and widgets that need the data.
+//Think about the "Keep me Logged In" checkbox.
+
 import 'dart:async';
 
 import 'dart:async';
@@ -28,3 +31,15 @@ class Bloc extends Object with Validators {
     _password.close();
   }
 }
+
+/* 2 ways of Applying a Bloc
+
+1. Single Global Instance
+Possibly OK for small apps
+
+2. Scoped Instances
+Possibly better for large apps
+
+*/
+//1:
+final bloc = Bloc(); //one universal bloc for the entire application
