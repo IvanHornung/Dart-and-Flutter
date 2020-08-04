@@ -17,6 +17,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget emailField() {
+    //The StreamBuilder widget is abs core to how we update widgets inside flutter.
     return StreamBuilder(
       stream: bloc.email,
       //every time a new event comes accross ^this stream,the builder function re-runs
@@ -24,8 +25,8 @@ class LoginScreen extends StatelessWidget {
       //across the stream - which gets wrapped up in "snapshot"
       builder: (context, snapshot) {
         return TextField(
-          onChanged:
-              bloc.changeEmail, //same as writing (newVal){.changeEmail(newVal)}
+          onChanged: bloc.changeEmail,
+          //same as writing (newVal){.changeEmail(newVal)}
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             hintText: 'you@example.com',
@@ -38,12 +39,24 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget passwordField() {
-    return TextField(
-      obscureText: true,
-      decoration: InputDecoration(
-        hintText: 'Password',
-        labelText: 'Password',
-      ),
+    //Reminder: Sinks and Streams are both part of the StreamController.
+    //          You add data to the StreamController using the Sink which can
+    //          be listened via the Stream
+    return StreamBuilder(
+      stream: bloc.password, //output stream from our Bloc
+      builder: (context, snapshot) {
+        return TextField(
+          onChanged: bloc.changePassword,
+          //everytime a user types in a thing, we send that value into our password
+          //stream controller's sink
+          obscureText: true,
+          decoration: InputDecoration(
+            hintText: 'Password',
+            labelText: 'Password',
+            errorText: snapshot.error,
+          ),
+        );
+      },
     );
   }
 
