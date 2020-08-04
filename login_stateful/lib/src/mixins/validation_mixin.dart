@@ -1,3 +1,5 @@
+//A mixin is kind of like a mini library where you copy and paste the methods to another class.
+
 class ValidationMixin {
   String validateEmail(String value) {
     if (!value.contains('@')) {
