@@ -42,4 +42,4 @@ Possibly better for large apps
 
 */
 //1:
-final bloc = Bloc(); //one universal bloc for the entire application
+//final bloc = Bloc(); //one universal bloc for the entire application

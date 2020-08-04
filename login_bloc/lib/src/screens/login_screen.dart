@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import '../blocs/bloc.dart';
+import '../blocs/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   Widget build(context) {
+    final bloc = Provider.of(context);
+    //looks at hierarchy, finds nearest instance of provider, pulls off the bloc
+    //property, and returns it.
+
     return Container(
       margin: EdgeInsets.all(20.0),
       child: Column(
         children: <Widget>[
-          emailField(),
-          passwordField(),
+          emailField(bloc),
+          passwordField(bloc),
           Container(margin: EdgeInsets.only(top: 25.0)),
           submitButton(),
         ],
@@ -16,7 +21,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget emailField() {
+  Widget emailField(Bloc bloc) {
     //The StreamBuilder widget is abs core to how we update widgets inside flutter.
     return StreamBuilder(
       stream: bloc.email,
@@ -38,7 +43,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget passwordField() {
+  Widget passwordField(Bloc bloc) {
     //Reminder: Sinks and Streams are both part of the StreamController.
     //          You add data to the StreamController using the Sink which can
     //          be listened via the Stream
