@@ -2,22 +2,26 @@
 //Think about the "Keep me Logged In" checkbox.
 
 import 'dart:async';
-
-import 'dart:async';
 import 'validators.dart';
+import 'package:rxdart/rxdart.dart';
 
 //a mixin likes to copy&paste methods onto a base class in dart, so extend
 //the most basic class (does nothing) to please dart
 class Bloc extends Object with Validators {
   //we are only going to be working with String value types
-  final _email = StreamController<String>();
-  final _password = StreamController<String>();
+  final _email = StreamController<String>.broadcast();
+  //broadcast streams allow more than one listener
+  //in the lifetime of the stream
+  final _password = StreamController<String>.broadcast();
   //an underscore indicates that the variable is private (for convenience for other engineers)
 
   // Add data to stream
   Stream<String> get email => _email.stream.transform(validateEmail);
   Stream<String> get password => _password.stream.transform(validatePassword);
   //you receive either a valid email/pass or an error msg
+
+  Stream<bool> get submitValid => //we dont care about this v param
+      Rx.combineLatest2(email, password, (e, p) => true);
 
   //Change data
   Function(String) get changeEmail => _email.sink.add;
