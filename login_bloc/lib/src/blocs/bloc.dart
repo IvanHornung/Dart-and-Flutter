@@ -9,10 +9,11 @@ import 'package:rxdart/rxdart.dart';
 //the most basic class (does nothing) to please dart
 class Bloc extends Object with Validators {
   //we are only going to be working with String value types
-  final _email = StreamController<String>.broadcast();
-  //broadcast streams allow more than one listener
-  //in the lifetime of the stream
-  final _password = StreamController<String>.broadcast();
+  final _email =
+      BehaviorSubject<String>(); //BehSub is a StreamController that captures
+  //the latest item that has been added to the controller
+  //-Broadcast streams allow more than one listener in the lifetime of the stream
+  final _password = BehaviorSubject<String>();
   //an underscore indicates that the variable is private (for convenience for other engineers)
 
   // Add data to stream
@@ -26,6 +27,14 @@ class Bloc extends Object with Validators {
   //Change data
   Function(String) get changeEmail => _email.sink.add;
   Function(String) get changePassword => _password.sink.add;
+
+  submit() {
+    final validEmail = _email.value; //BehSub.value is latest value
+    final validPassword = _password.value;
+
+    print('Email is $validEmail');
+    print('Password is $validPassword');
+  }
 
   //nothing special here, just a method to make dart happy because
   //when you create a StreamController, it auto has a sink coming with it
@@ -47,3 +56,13 @@ Possibly better for large apps
 */
 //1:
 //final bloc = Bloc(); //one universal bloc for the entire application
+
+/*  Important Notes on BLOCs
+
+-We use blocs instead of StatefulWidgets to share information around our app
+-We can use a bloc either as a single global instance or with a scoped instance
+-Blocs use sinks and streams to work with information
+-Widgets use StreamBuilders to change their contents depending on values coming
+ through a stream
+-The RxDart library is extremely useful in the vast majority of apps
+*/

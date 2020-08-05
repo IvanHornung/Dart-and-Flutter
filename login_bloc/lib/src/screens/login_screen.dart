@@ -73,10 +73,8 @@ class LoginScreen extends StatelessWidget {
           child: Text('Login'),
           color: Colors.blue,
           onPressed: snapshot.hasData //an error is not data
-              ? () {
-                  //hasData is here to grey out button before any input
-                  print('Hi there!');
-                }
+              //hasData is here to grey out button before any input
+              ? bloc.submit //invokes submit() in bloc class
               : null, //onPressed: null makes it appear to be disabled
         );
       },
