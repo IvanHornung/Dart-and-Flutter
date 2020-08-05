@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/cat.dart';
 
 //creating StatefulWidgets because no other part of our app cares about this data
 
@@ -16,5 +17,7 @@ class HomeState extends State<Home> {
     );
   }
 
-  Widget buildAnimation() {}
+  Widget buildAnimation() {
+    return Cat();
+  }
 }
