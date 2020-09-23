@@ -19,14 +19,15 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     super.initState();
 
     catController = AnimationController(
-      duration: Duration(seconds: 2), //full animation length
+      duration: Duration(milliseconds: 200), //full animation length
       vsync: this,
       //vsync=TickerProvider: handle from outside world into our widget that
       //gives the outside word of flutter to reach in and tell our anim to progress
       //along and essentially render the next frame of our animation. This class is a Mixin
     );
 
-    catAnimation = Tween(begin: 0.0, end: 100.0).animate(
+    //0->-50 makes cat's ears poke out of box
+    catAnimation = Tween(begin: -35.0, end: -80.0).animate(
       CurvedAnimation(
         parent: catController,
         curve: Curves.easeIn, //increasing exponential change in value
@@ -53,6 +54,8 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
         child: Center(
           //centers widgets
           child: Stack(
+            overflow: Overflow
+                .visible, //makes the cat's ears visible beyond the bounds
             //when you tap on the child, it detects
             //layout widget that stacks an array of widgets on top of each other
             children: <Widget>[
@@ -70,10 +73,11 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     return AnimatedBuilder(
       animation: catAnimation,
       builder: (context, child) {
-        return Container(
-          //we will keep recreating a Container, but that is ok
-          child: child, //because it is inexpensive compared to child (Cat)
-          margin: EdgeInsets.only(top: catAnimation.value),
+        return Positioned(
+          child: child,
+          top: catAnimation.value, //at the top
+          right: 0.0, //zero pixels from the right
+          left: 0.0, //zero pixels from the left (so then it shrinks)
         );
       },
       child: Cat(),
