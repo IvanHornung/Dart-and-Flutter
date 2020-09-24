@@ -12,6 +12,8 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   //Animation class that controls a value of type double
   Animation<double> catAnimation;
   AnimationController catController;
+  Animation<double> boxAnimation;
+  AnimationController boxController;
 
   //special method. everytime a HomeState is created, this is auto invoked.
   //only special in a State-based class
@@ -19,11 +21,27 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   initState() {
     super.initState();
 
+    boxController = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this, //pokes at the animation controller 60times/s
+      //to say "hey its time to update your value"
+    );
+
+    boxAnimation = Tween(
+      begin: 0.0,
+      end: pi,
+    ).animate(
+      CurvedAnimation(
+        parent: boxController,
+        curve: Curves.linear,
+      ),
+    );
+
     catController = AnimationController(
       duration: Duration(milliseconds: 200), //full animation length
       vsync: this,
       //vsync=TickerProvider: handle from outside world into our widget that
-      //gives the outside word of flutter to reach in and tell our anim to progress
+      //gives the outside world of flutter to reach in and tell our anim to progress
       //along and essentially render the next frame of our animation. This class is a Mixin
     );
 
