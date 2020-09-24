@@ -22,24 +22,27 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     super.initState();
 
     boxController = AnimationController(
-      duration: Duration(seconds: 2),
+      duration: Duration(milliseconds: 300),
       vsync: this, //pokes at the animation controller 60times/s
       //to say "hey its time to update your value"
     );
 
     boxAnimation = Tween(
-      begin: 0.0,
-      end: pi,
+      begin: pi * 0.6,
+      end: pi * 0.65,
     ).animate(
       CurvedAnimation(
         parent: boxController,
-        curve: Curves.linear,
+        curve: Curves.easeInOut,
       ),
     );
 
     boxAnimation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        boxController.repeat(); //reset to 0 and play to end of 3.14
+        boxController.reverse(); //reset to 0 and play to end of 3.14
+      } else if (status == AnimationStatus.dismissed) {
+        //if status is back to its original state
+        boxController.forward();
       }
     });
     boxController.forward();
@@ -62,6 +65,8 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   onTap() {
+    boxController.stop();
+
     if (catController.status == AnimationStatus.completed) {
       //@ end:100.0
       catController.reverse(); //opposite of forward
@@ -88,6 +93,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
               buildCatAnimation(), //we want the box on top of the cat, so list cat first
               buildBox(),
               buildLeftFlap(),
+              buildRightFlap(),
             ],
           ),
         ),
@@ -135,6 +141,26 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
               child: child,
               alignment: Alignment.topLeft,
               angle: boxAnimation.value,
+            );
+          }),
+    );
+  }
+
+  Widget buildRightFlap() {
+    return Positioned(
+      right: 3.0,
+      child: AnimatedBuilder(
+          animation: boxAnimation,
+          child: Container(
+            height: 10.0,
+            width: 125.0,
+            color: Colors.brown,
+          ),
+          builder: (context, child) {
+            return Transform.rotate(
+              child: child,
+              alignment: Alignment.topRight,
+              angle: -boxAnimation.value,
             );
           }),
     );
