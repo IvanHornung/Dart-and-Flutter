@@ -37,6 +37,8 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       ),
     );
 
+    boxController.forward();
+
     catController = AnimationController(
       duration: Duration(milliseconds: 200), //full animation length
       vsync: this,
@@ -115,16 +117,21 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 
   Widget buildLeftFlap() {
     return Positioned(
-      left: 3.0, //leftmost is 3 pixels from left of Stack border
-      child: Transform.rotate(
-        child: Container(
-          height: 10.0,
-          width: 125.0,
-          color: Colors.brown,
-        ),
-        angle: pi * 0.6, //radians; rotates clockwise
-        alignment: Alignment.topLeft, //rotates topLeft axis
-      ),
+      left: 3.0,
+      child: AnimatedBuilder(
+          animation: boxAnimation,
+          child: Container(
+            height: 10.0,
+            width: 125.0,
+            color: Colors.brown,
+          ),
+          builder: (context, child) {
+            return Transform.rotate(
+              child: child,
+              alignment: Alignment.topLeft,
+              angle: boxAnimation.value,
+            );
+          }),
     );
   }
 }
