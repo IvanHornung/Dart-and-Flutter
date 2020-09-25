@@ -15,13 +15,10 @@ Our App -> Our API ->Hacker News api
 Our API would be responsible for all our requests
 instead of the app.
 
-
-
 -Performance Strategy-
 .                                      (checks local cache to see if we have fetch this before)
 Our app decides it                             --> NewsDbProvider Class -> Sqlite Database on Device
 needs to fetch an Item   -> Repository class --
 .                                              --> NewsApiProvider Class -> HackerNews Api
 .                                                  (Fetches item from API)
-
 */
