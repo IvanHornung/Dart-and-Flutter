@@ -42,4 +42,18 @@ class NewsDbProvider {
       },
     );
   }
+
+  fetchItem(int id) async {
+    final maps = await db.query(
+      "Items",
+      columns: null, //we want the entire item
+      where: "id = ?", //prevents sqlite injection hack
+      whereArgs: [id], //parameter to func
+    );
+
+    if (maps.length > 0) {
+      return ItemModel.fromDb(maps.first); //first map from maps
+    }
+    return null;
+  }
 }
